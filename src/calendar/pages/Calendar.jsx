@@ -1,7 +1,7 @@
 import { Calendar as BigCalendar, } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
-import { Navbar } from '../components/Navbar';
+import { CalendarEvent, Navbar } from '../';
 import { addHours } from 'date-fns';
 import { localizer, getMessagesES } from '../../helpers';
 
@@ -22,14 +22,26 @@ const events = [
 export const Calendar = () => {
 
   const eventStyleGetter = (event, start, end, isSelected ) => {
+   
     
+    const style = {
+      backgroundColor: '#367CF7',
+      borderRadius: '0px',
+      opacity: 0.8,
+      display: 'block',
+      color: 'white',
+    }
+
+    return {
+      style,
+    }
+
   }
 
   return (
     <>
       <Navbar />
 
-      <div>
         <BigCalendar
           culture='es'
           localizer={localizer}
@@ -39,8 +51,11 @@ export const Calendar = () => {
           style={{ height: 'calc(100vh - 80px )' }}
           messages={getMessagesES()}
           eventPropGetter={ eventStyleGetter }
+          components={{
+            event: CalendarEvent,
+          }}
         />
-      </div>
+
 
     </>
   )
