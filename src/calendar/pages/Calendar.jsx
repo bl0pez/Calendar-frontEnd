@@ -5,6 +5,7 @@ import { CalendarEvent, CalendarModal, Navbar } from '../';
 import { addHours } from 'date-fns';
 import { localizer, getMessagesES } from '../../helpers';
 import { useState } from 'react';
+import { useUiStore } from '../../hooks';
 
 const events = [
   {
@@ -22,6 +23,7 @@ const events = [
 
 export const Calendar = () => {
 
+  const { openDateModal } = useUiStore();
   const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'month');
 
   const eventStyleGetter = (event, start, end, isSelected ) => {
@@ -42,7 +44,7 @@ export const Calendar = () => {
   }
 
   const onDoubleClick = (event) => {
-
+    openDateModal();
   }
 
   const onSelectEvent = (event) => {
