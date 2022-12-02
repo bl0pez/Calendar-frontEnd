@@ -2,28 +2,14 @@ import { Calendar as BigCalendar, } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 import { CalendarEvent, CalendarModal, Navbar } from '../';
-import { addHours } from 'date-fns';
 import { localizer, getMessagesES } from '../../helpers';
 import { useState } from 'react';
-import { useUiStore } from '../../hooks';
-
-const events = [
-  {
-    title: 'CUMPLEAÑOS DE JUAN',
-    nostes: 'FELIZ CUM',
-    start: new Date(),
-    end: addHours(new Date(), 2),
-    bgcolor: '#fafafa',
-    user: {
-      _id: '123',
-      name: 'Juan',
-    }
-  }
-]
+import { useUiStore, useCalendarStore } from '../../hooks';
 
 export const Calendar = () => {
 
   const { openDateModal } = useUiStore();
+  const { events, setActiveEvent } = useCalendarStore();
   const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'month');
 
   const eventStyleGetter = (event, start, end, isSelected ) => {
@@ -48,7 +34,7 @@ export const Calendar = () => {
   }
 
   const onSelectEvent = (event) => {
-
+    setActiveEvent(event);
   }
 
   const onViewChange = (event) => {
