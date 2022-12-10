@@ -26,7 +26,6 @@ export const useAuthStore = () => {
             
 
         } catch (error) {
-            
             dispatch(onLogout('Credenciales incorrectas'));
 
             //Clear error messages in 10ms
@@ -34,6 +33,37 @@ export const useAuthStore = () => {
                 dispatch(clearErrorMessages());
             }, 10);
 
+        }
+
+    }
+
+    /**
+     * Resive los datos del formulario y los envia al backend
+     * @param {*} name - name of user
+     * @param {*} email - email of user
+     * @param {*} password - password of user
+     * 
+     */
+    const startRegister = async({name, email, password}) => {
+
+        dispatch(onCheking());
+
+        try {
+           
+            const { data } = await calendarApi.post('/auth/new', { name, email, password });
+
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('token-init-date', new Date().getTime());
+
+            dispatch(onLogin({ name: data.name, uid: data.uid }));
+            
+        } catch (error) {
+            dispatch(onLogout(error.response.data?.message || 'Error desconocido'));
+
+            //Clear error messages in 10ms
+            setTimeout(() => {
+                dispatch(clearErrorMessages());
+            }, 10);
         }
 
     }
@@ -48,6 +78,7 @@ export const useAuthStore = () => {
 
         //Methods
         startLogin,
+        startRegister,
     }
 
 }
