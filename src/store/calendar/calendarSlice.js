@@ -18,8 +18,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const calendarSlice = createSlice({
     name: 'calendar',
-    isLoadingEvents: true,
     initialState: {
+        isLoadingEvents: true,
         events: [
             // tempEvent
         ],
@@ -58,8 +58,15 @@ export const calendarSlice = createSlice({
                 }
             });
 
+        },
+        onLogoutCalendar: (state) => {
+                state.isLoadingEvents = true,
+                state.events = [
+                    // tempEvent
+                ],
+                state.activeEvent = null
         }
     }
 });
 
-export const { onSetActiveEvent, onAddNewEvent, onUpdateEvent, onDeleteEvent,  onLoadEvents } = calendarSlice.actions;
+export const { onSetActiveEvent, onAddNewEvent, onUpdateEvent, onDeleteEvent,  onLoadEvents, onLogoutCalendar } = calendarSlice.actions;
