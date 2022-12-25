@@ -1,42 +1,55 @@
 import { useDispatch, useSelector } from "react-redux"
+import Swal from "sweetalert2";
 import calendarApi from "../api/calendarApi";
 import { convertEventsDate } from "../helpers";
 import { onAddNewEvent, onSetActiveEvent, onUpdateEvent, onDeleteEvent, onLoadEvents } from "../store";
 
 export const useCalendarStore = () => {
-    
+
     const dispatch = useDispatch();
     const { events, activeEvent } = useSelector(state => state.calendar);
     const { user } = useSelector(state => state.auth);
 
-    const setActiveEvent = ( calendarEvent ) => {
-        dispatch( onSetActiveEvent(calendarEvent) )
+    const setActiveEvent = (calendarEvent) => {
+        dispatch(onSetActiveEvent(calendarEvent))
     }
 
-    const startSavingEvent = async( calendarEvent ) => {
-        if( calendarEvent._id ){
-            //Actualizando evento
-            dispatch(onUpdateEvent({...calendarEvent}));
-        }else{
+    const startSavingEvent = async (calendarEvent) => {
+        try {
 
-            //Mandamos la petición al backend para crear el evento
-            const { _id } = calendarApi.post('/events', calendarEvent);
+            if (calendarEvent._id) {
 
-            //Creando evento
-            dispatch(onAddNewEvent({ ...calendarEvent, _id, user }));
-        }
-    }
+                //Mandamos la petición al backend para actualizar el evento
+                await calendarApi.put(`/events/${calendarEvent._id}`, calendarEvent);
+
+                //Actualizando evento
+                dispatch(onUpdateEvent({ ...calendarEvent, user }));
+                return;
+            }
+
+                //Mandamos la petición al backend para crear el evento
+                const { _id } = calendarApi.post('/events', calendarEvent);
+
+                //Creando evento
+                dispatch(onAddNewEvent({ ...calendarEvent, _id, user }));
+            } catch (error) {
+                console.log(error);
+                const err = error.response.data.message || "Error al ejecutar la acción"
+                Swal.fire('Error', err, 'error');
+            }
+
+        } 
 
     const startDeleteEvent = () => {
         dispatch(onDeleteEvent());
     }
 
-    const startLoadingEvents = async() => {
+    const startLoadingEvents = async () => {
         try {
-            
+
             const { data } = await calendarApi.get('/events');
             const events = convertEventsDate(data.eventos);
-            dispatch( onLoadEvents(events));
+            dispatch(onLoadEvents(events));
 
         } catch (error) {
             console.log(error);
