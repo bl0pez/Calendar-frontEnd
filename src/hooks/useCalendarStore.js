@@ -27,21 +27,36 @@ export const useCalendarStore = () => {
                 return;
             }
 
-                //Mandamos la petición al backend para crear el evento
-                const { _id } = calendarApi.post('/events', calendarEvent);
+            //Mandamos la petición al backend para crear el evento
+            const { _id } = calendarApi.post('/events', calendarEvent);
 
-                //Creando evento
-                dispatch(onAddNewEvent({ ...calendarEvent, _id, user }));
-            } catch (error) {
-                console.log(error);
-                const err = error.response.data.message || "Error al ejecutar la acción"
-                Swal.fire('Error', err, 'error');
-            }
+            //Creando evento
+            dispatch(onAddNewEvent({ ...calendarEvent, _id, user }));
+        } catch (error) {
+            console.log(error);
+            const err = error.response.data.message || "Error al ejecutar la acción"
+            Swal.fire('Error', err, 'error');
+        }
 
-        } 
+    }
 
-    const startDeleteEvent = () => {
-        dispatch(onDeleteEvent());
+    const startDeleteEvent = async() => {
+
+        try {
+
+            
+                //Mandamos la petición al backend para eliminar el evento
+                await calendarApi.delete(`/events/${activeEvent._id}`);
+
+                //Eliminando evento
+                dispatch(onDeleteEvent(activeEvent._id));
+            
+
+        } catch (error) {
+            Swal.fire('Error', error.response.data.message || "Error al Eliminar el evento", 'error');
+        }
+
+
     }
 
     const startLoadingEvents = async () => {

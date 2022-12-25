@@ -2,7 +2,6 @@ import Modal from 'react-modal';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import { addHours, differenceInSeconds } from 'date-fns';
 import { useEffect, useMemo, useState } from 'react';
-import { useDispatch } from 'react-redux';
 
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
