@@ -1,3 +1,4 @@
 export * from './calendarLocalizer';
-export * from './getMessages';
+export * from './convertEventsDate';
 export * from './getEnvVariables';
+export * from './getMessages';
