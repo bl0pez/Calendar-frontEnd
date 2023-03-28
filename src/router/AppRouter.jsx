@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Login } from '../auth/pages/Login';
 import { Calendar } from '../calendar';
+import { Spinner } from '../components/Spinner';
 import { useAuthStore } from '../hooks';
 
 export const AppRouter = () => {
@@ -13,7 +14,7 @@ export const AppRouter = () => {
   }, []);
 
   if (status === 'checking') {
-    return <div className="loader">Cargando</div>
+    return <Spinner />
   }
 
   return (

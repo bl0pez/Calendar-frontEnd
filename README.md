@@ -1,5 +1,7 @@
 # Calendar App
 
+## Descripción
+Proyecto frontend que permite crear y editar eventos en un calendario solicitando los datos al backend.
 
 ## Development pasos
 
