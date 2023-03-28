@@ -1,6 +1,9 @@
 export const getEnvVariables = () => {
-    import.meta.env;
-    return {
-        ...import.meta.env,
+    
+    const variables = {
+        VITE_API_URL: import.meta.env.VITE_API_URL,
     }
+
+    return variables;
+
 }
