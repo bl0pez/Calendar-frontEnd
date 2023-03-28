@@ -1,10 +1,10 @@
 import axios from 'axios';
-import { getEnvVariables } from '../helpers/getEnvVariables';
+// import { getEnvVariables } from '../helpers/getEnvVariables';
 
-const { VITE_API_URL } = getEnvVariables();
+// const { VITE_API_URL } = getEnvVariables();
 
 const calendarApi = axios.create({
-    baseURL: VITE_API_URL || 'http://localhost:4000/api',
+    baseURL: import.meta.env.VITE_API_URL,
 });
 
 calendarApi.interceptors.request.use(
